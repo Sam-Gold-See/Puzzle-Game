@@ -46,6 +46,16 @@ public class GameFrame extends JFrame implements KeyListener {
 		}
 	}
 
+	public boolean victory(){
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if(data[i][j] != win[i][j])
+					return false;
+			}
+		}
+		return true;
+	}
+
 	private void initImage() {
 		this.getContentPane().removeAll();
 
@@ -167,15 +177,5 @@ public class GameFrame extends JFrame implements KeyListener {
 				initImage();
 			}
 		}
-	}
-
-	public boolean victory(){
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if(data[i][j] != win[i][j])
-					return false;
-			}
-		}
-		return true;
 	}
 }
