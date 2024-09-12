@@ -2,15 +2,23 @@ package UI;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameFrame extends JFrame implements KeyListener {
+public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 	int[][] data = new int[4][4];
 	int[][] win = new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
+	int step = 0;
 	String path = "src\\image\\girl\\girl1\\";
+
+	JMenuItem jMenuReplay = new JMenuItem("replay");
+	JMenuItem jMenuReLogin = new JMenuItem("re-login");
+	JMenuItem jMenuExit = new JMenuItem("exit");
+	JMenuItem jMenuAccount = new JMenuItem("account");
 
 	int x = 0;
 	int y = 0;
@@ -41,30 +49,23 @@ public class GameFrame extends JFrame implements KeyListener {
 			if (array[i] == 0) {
 				x = i / 4;
 				y = i % 4;
-			} else
-				data[i / 4][i % 4] = array[i];
-		}
-	}
-
-	public boolean victory(){
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if(data[i][j] != win[i][j])
-					return false;
 			}
+			data[i / 4][i % 4] = array[i];
 		}
-		return true;
 	}
 
 	private void initImage() {
 		this.getContentPane().removeAll();
 
-		if(victory())
-		{
+		if (victory()) {
 			JLabel winLabel = new JLabel(new ImageIcon("src\\image\\win.png"));
-			winLabel.setBounds(203,283,197,73);
+			winLabel.setBounds(203, 283, 197, 73);
 			this.getContentPane().add(winLabel);
 		}
+
+		JLabel stepCount = new JLabel("已执行步数：" + step);
+		stepCount.setBounds(50, 30, 100, 20);
+		this.getContentPane().add(stepCount);
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++) {
@@ -81,16 +82,21 @@ public class GameFrame extends JFrame implements KeyListener {
 		this.getContentPane().repaint();
 	}
 
+	public boolean victory() {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (data[i][j] != win[i][j])
+					return false;
+			}
+		}
+		return true;
+	}
+
 	private void initJMenuBar() {
 		JMenuBar jMenuBar = new JMenuBar();
 
 		JMenu jMenuFunction = new JMenu("function");
 		JMenu jMenuAboutUs = new JMenu("about us");
-
-		JMenuItem jMenuReplay = new JMenuItem("replay");
-		JMenuItem jMenuReLogin = new JMenuItem("re-login");
-		JMenuItem jMenuExit = new JMenuItem("exit");
-		JMenuItem jMenuAccount = new JMenuItem("account");
 
 		jMenuFunction.add(jMenuReplay);
 		jMenuFunction.add(jMenuReLogin);
@@ -99,6 +105,11 @@ public class GameFrame extends JFrame implements KeyListener {
 
 		jMenuBar.add(jMenuFunction);
 		jMenuBar.add(jMenuAboutUs);
+
+		jMenuReplay.addActionListener(this);
+		jMenuReLogin.addActionListener(this);
+		jMenuExit.addActionListener(this);
+		jMenuAccount.addActionListener(this);
 
 		this.setJMenuBar(jMenuBar);
 	}
@@ -137,7 +148,7 @@ public class GameFrame extends JFrame implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(victory())
+		if (victory())
 			return;
 
 		int code = e.getKeyCode();
@@ -148,6 +159,7 @@ public class GameFrame extends JFrame implements KeyListener {
 					return;
 				data[x][y] = data[x + 1][y];
 				data[++x][y] = 0;
+				step++;
 				initImage();
 			}
 			case KeyEvent.VK_DOWN -> {
@@ -155,6 +167,7 @@ public class GameFrame extends JFrame implements KeyListener {
 					return;
 				data[x][y] = data[x - 1][y];
 				data[--x][y] = 0;
+				step++;
 				initImage();
 			}
 			case KeyEvent.VK_LEFT -> {
@@ -162,6 +175,7 @@ public class GameFrame extends JFrame implements KeyListener {
 					return;
 				data[x][y] = data[x][y + 1];
 				data[x][++y] = 0;
+				step++;
 				initImage();
 			}
 			case KeyEvent.VK_RIGHT -> {
@@ -169,6 +183,7 @@ public class GameFrame extends JFrame implements KeyListener {
 					return;
 				data[x][y] = data[x][y - 1];
 				data[x][--y] = 0;
+				step++;
 				initImage();
 			}
 			case KeyEvent.VK_A -> initImage();
@@ -177,5 +192,34 @@ public class GameFrame extends JFrame implements KeyListener {
 				initImage();
 			}
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object object = e.getSource();
+		if (object == jMenuReplay) {
+			initData();
+			step = 0;
+			initImage();
+		} else if (object == jMenuReLogin) {
+			this.setVisible(false);
+			new LoginFrame();
+		} else if (object == jMenuExit) {
+			System.exit(0);
+		} else if (object == jMenuAccount) {
+			account();
+		}
+	}
+
+	private static void account() {
+		JDialog jDialog = new JDialog();
+		JLabel jLabel = new JLabel(new ImageIcon("src\\image\\about.jpg"));
+		jLabel.setBounds(0, 0, 640, 640);
+		jDialog.getContentPane().add(jLabel);
+		jDialog.setSize(640,640);
+		jDialog.setAlwaysOnTop(true);
+		jDialog.setLocationRelativeTo(null);
+		jDialog.setModal(true);
+		jDialog.setVisible(true);
 	}
 }
