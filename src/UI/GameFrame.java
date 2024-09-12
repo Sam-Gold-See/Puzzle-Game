@@ -13,12 +13,19 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 	int[][] data = new int[4][4];
 	int[][] win = new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
 	int step = 0;
-	String path = "src\\image\\girl\\girl1\\";
+	Random random = new Random();
+	int initRandom = random.nextInt(3);
+	String[] pathName = new String[]{"animal", "girl", "sport"};
+	int[] pathLen = new int[]{8, 11, 10};
+	String path = "src\\image\\" + pathName[initRandom] + "\\" + pathName[initRandom] + random.nextInt(pathLen[initRandom]) + "\\";
 
 	JMenuItem jMenuReplay = new JMenuItem("replay");
 	JMenuItem jMenuReLogin = new JMenuItem("re-login");
 	JMenuItem jMenuExit = new JMenuItem("exit");
 	JMenuItem jMenuAccount = new JMenuItem("account");
+	JMenuItem jMenuChangeAnimal = new JMenuItem("animal");
+	JMenuItem jMenuChangeGirl = new JMenuItem("girl");
+	JMenuItem jMenuChangeSport = new JMenuItem("sport");
 
 	int x = 0;
 	int y = 0;
@@ -37,7 +44,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 	private void initData() {
 		int[] array = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-		Random random = new Random();
 		for (int i = 0; i < 16; i++) {
 			int index = random.nextInt(16);
 			int temp = array[index];
@@ -97,11 +103,17 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 		JMenu jMenuFunction = new JMenu("function");
 		JMenu jMenuAboutUs = new JMenu("about us");
+		JMenu jMenuChange = new JMenu("change");
 
+		jMenuFunction.add(jMenuChange);
 		jMenuFunction.add(jMenuReplay);
 		jMenuFunction.add(jMenuReLogin);
 		jMenuFunction.add(jMenuExit);
 		jMenuAboutUs.add(jMenuAccount);
+
+		jMenuChange.add(jMenuChangeAnimal);
+		jMenuChange.add(jMenuChangeGirl);
+		jMenuChange.add(jMenuChangeSport);
 
 		jMenuBar.add(jMenuFunction);
 		jMenuBar.add(jMenuAboutUs);
@@ -110,6 +122,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		jMenuReLogin.addActionListener(this);
 		jMenuExit.addActionListener(this);
 		jMenuAccount.addActionListener(this);
+		jMenuChangeAnimal.addActionListener(this);
+		jMenuChangeGirl.addActionListener(this);
+		jMenuChangeSport.addActionListener(this);
+
 
 		this.setJMenuBar(jMenuBar);
 	}
@@ -198,9 +214,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object object = e.getSource();
 		if (object == jMenuReplay) {
-			initData();
-			step = 0;
-			initImage();
+			replay();
 		} else if (object == jMenuReLogin) {
 			this.setVisible(false);
 			new LoginFrame();
@@ -208,7 +222,22 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 			System.exit(0);
 		} else if (object == jMenuAccount) {
 			account();
+		} else if (object == jMenuChangeAnimal) {
+			path = "src\\image\\Animal\\Animal" + (random.nextInt(8) + 1) + "\\";
+			replay();
+		} else if (object == jMenuChangeGirl) {
+			path = "src\\image\\Girl\\Girl" + (random.nextInt(11) + 1) + "\\";
+			replay();
+		} else if (object == jMenuChangeSport) {
+			path = "src\\image\\Sport\\Sport" + (random.nextInt(10) + 1) + "\\";
+			replay();
 		}
+	}
+
+	private void replay() {
+		initData();
+		step = 0;
+		initImage();
 	}
 
 	private static void account() {
@@ -216,7 +245,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		JLabel jLabel = new JLabel(new ImageIcon("src\\image\\about.jpg"));
 		jLabel.setBounds(0, 0, 640, 640);
 		jDialog.getContentPane().add(jLabel);
-		jDialog.setSize(640,640);
+		jDialog.setSize(640, 640);
 		jDialog.setAlwaysOnTop(true);
 		jDialog.setLocationRelativeTo(null);
 		jDialog.setModal(true);
