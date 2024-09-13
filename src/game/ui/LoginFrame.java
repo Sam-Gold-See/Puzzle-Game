@@ -152,6 +152,7 @@ public class LoginFrame extends JFrame implements MouseListener {
 		}else if(e.getSource() == register) {
 			register.setIcon(new ImageIcon(loginPath + "注册按下.png"));
 		}else if(e.getSource() == seePassword) {
+			seePassword.setIcon(new ImageIcon(loginPath + "显示密码按下.png"));
 			String passwordInput = new String(this.password.getPassword());
 			password.setText(passwordInput);
 			password.setEchoChar((char)0);
@@ -165,6 +166,7 @@ public class LoginFrame extends JFrame implements MouseListener {
 		}else if (e.getSource() == register) {
 			register.setIcon(new ImageIcon(loginPath + "注册按钮.png"));
 		}else if (e.getSource() == seePassword) {
+			seePassword.setIcon(new ImageIcon(loginPath + "显示密码.png"));
 			password.setEchoChar('*');
 		}
 	}
