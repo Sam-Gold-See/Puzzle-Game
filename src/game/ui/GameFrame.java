@@ -1,4 +1,4 @@
-package UI;
+package game.ui;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

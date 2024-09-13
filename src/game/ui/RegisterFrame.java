@@ -1,10 +1,10 @@
-package UI;
+package game.ui;
 
 import javax.swing.*;
 
-public class LoginFrame extends JFrame {
-	public LoginFrame() {
-		this.setTitle("Puzzle Game LoginFrame");
+public class RegisterFrame extends JFrame {
+	public RegisterFrame() {
+		this.setTitle("Puzzle Game RegisterFrame");
 		this.setSize(800, 600);
 		this.setAlwaysOnTop(true);
 		this.setLocationRelativeTo(null);
