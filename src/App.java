@@ -1,7 +1,7 @@
-import game.ui.GameFrame;
+import game.ui.LoginFrame;
 
 public class App {
 	public static void main(String[] args) {
-		new GameFrame();
+		new LoginFrame();
 	}
 }

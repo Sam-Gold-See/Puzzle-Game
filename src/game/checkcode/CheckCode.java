@@ -32,6 +32,6 @@ public class CheckCode {
 		chars[index] = chars[4];
 		chars[4] = temp;
 
-		return Arrays.toString(chars);
+		return new String(chars);
 	}
 }

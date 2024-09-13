@@ -126,7 +126,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		jMenuChangeGirl.addActionListener(this);
 		jMenuChangeSport.addActionListener(this);
 
-
 		this.setJMenuBar(jMenuBar);
 	}
 
