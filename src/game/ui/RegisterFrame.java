@@ -1,5 +1,7 @@
 package game.ui;
 
+import game.user.User;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,8 +16,9 @@ public class RegisterFrame extends JFrame implements MouseListener {
 
 	JButton seePassword1 = new JButton();
 	JButton seePassword2 = new JButton();
-	JButton registerButton = new JButton();
-	JButton resetButton = new JButton();
+	JButton register = new JButton();
+	JButton reset = new JButton();
+	JButton login = new JButton();
 
 	int flagSeePassword1 = 0;
 	int flagSeePassword2 = 0;
@@ -75,19 +78,27 @@ public class RegisterFrame extends JFrame implements MouseListener {
 		seePassword2.addMouseListener(this);
 		this.getContentPane().add(seePassword2);
 
-		resetButton.setBounds(125, 310, 128, 47);
-		resetButton.setIcon(new ImageIcon(registerPath + "重置按钮.png"));
-		resetButton.setBorderPainted(false);
-		resetButton.setContentAreaFilled(false);
-		resetButton.addMouseListener(this);
-		this.getContentPane().add(resetButton);
+		login.setBounds(34, 310, 128, 47);
+		login.setIcon(new ImageIcon(registerPath + "登录按钮.png"));
+		login.setBorderPainted(false);
+		login.setContentAreaFilled(false);
+		login.addMouseListener(this);
+		this.getContentPane().add(login);
 
-		registerButton.setBounds(256, 310, 128, 47);
-		registerButton.setIcon(new ImageIcon(registerPath + "注册按钮.png"));
-		registerButton.setBorderPainted(false);
-		registerButton.setContentAreaFilled(false);
-		registerButton.addMouseListener(this);
-		this.getContentPane().add(registerButton);
+		reset.setBounds(165, 310, 128, 47);
+		reset.setIcon(new ImageIcon(registerPath + "重置按钮.png"));
+		reset.setBorderPainted(false);
+		reset.setContentAreaFilled(false);
+		reset.addMouseListener(this);
+		this.getContentPane().add(reset);
+
+		register.setBounds(296, 310, 128, 47);
+		register.setIcon(new ImageIcon(registerPath + "注册按钮.png"));
+		register.setBorderPainted(false);
+		register.setContentAreaFilled(false);
+		register.addMouseListener(this);
+		this.getContentPane().add(register);
+
 
 		JLabel background = new JLabel(new ImageIcon(registerPath + "background.png"));
 		background.setBounds(0, 0, 470, 390);
@@ -109,39 +120,84 @@ public class RegisterFrame extends JFrame implements MouseListener {
 				seePassword1.setIcon(new ImageIcon(registerPath + "显示密码.png"));
 			}
 		} else if (e.getSource() == seePassword2) {
-			if (flagSeePassword2==0){
+			if (flagSeePassword2 == 0) {
 				flagSeePassword2++;
 				seePassword2.setIcon(new ImageIcon(registerPath + "显示密码按下.png"));
-				String passwordInput1 = new String(this.password1.getPassword());
+				String passwordInput1 = new String(this.password2.getPassword());
 				password2.setText(passwordInput1);
 				password2.setEchoChar((char) 0);
-			}else{
+			} else {
 				flagSeePassword2--;
 				password2.setEchoChar('*');
 				seePassword2.setIcon(new ImageIcon(registerPath + "显示密码.png"));
 			}
-		}else if(e.getSource() == registerButton){
+		} else if (e.getSource() == login) {
+			this.setVisible(false);
+			new LoginFrame();
+		} else if (e.getSource() == reset) {
+			registerName.setText("");
+			password1.setText("");
+			password2.setText("");
+		} else if (e.getSource() == register) {
+			String usernameInput = this.registerName.getText();
+			String passwordInput1 = new String(this.password1.getPassword());
+			String passwordInput2 = new String(this.password2.getPassword());
 
-		}else if(e.getSource() == resetButton){
-
+			if (usernameInput.isEmpty())
+				showDialog("用户名不能为空");
+			else if (passwordInput1.isEmpty() || passwordInput2.isEmpty())
+				showDialog("密码不能为空");
+			else if (contains(usernameInput))
+				showDialog("用户名已存在");
+			else if (!passwordInput1.equals(passwordInput2)) {
+				showDialog("两次密码不一致");
+			} else {
+				LoginFrame.users.add(new User(usernameInput,passwordInput1));
+				showDialog("注册成功，请自行返回登录界面");
+			}
 		}
+	}
+
+	public void showDialog(String content) {
+		JDialog jDialog = new JDialog();
+		jDialog.setSize(200, 150);
+		jDialog.setLocationRelativeTo(null);
+		jDialog.setAlwaysOnTop(true);
+		jDialog.setModal(true);
+
+		JLabel warnings = new JLabel(content);
+		warnings.setBounds(0, 0, 200, 150);
+		jDialog.getContentPane().add(warnings);
+
+		jDialog.setVisible(true);
+	}
+
+	public boolean contains(String usernameInput) {
+		for (User alreadyUser : LoginFrame.users)
+			if (usernameInput.equals(alreadyUser.getUserName()))
+				return true;
+		return false;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getSource() == resetButton) {
-			resetButton.setIcon(new ImageIcon(registerPath + "重置按下.png"));
-		}else if (e.getSource() == registerButton) {
-			registerButton.setIcon(new ImageIcon(registerPath+"注册按下.png"));
+		if (e.getSource() == reset) {
+			reset.setIcon(new ImageIcon(registerPath + "重置按下.png"));
+		} else if (e.getSource() == register) {
+			register.setIcon(new ImageIcon(registerPath + "注册按下.png"));
+		} else if (e.getSource() == login) {
+			login.setIcon(new ImageIcon(registerPath + "登录按下.png"));
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getSource() == resetButton){
-			resetButton.setIcon(new ImageIcon(registerPath+"重置按钮.png"));
-		}else if(e.getSource() == registerButton){
-			registerButton.setIcon(new ImageIcon(registerPath+"注册按钮.png"));
+		if (e.getSource() == reset) {
+			reset.setIcon(new ImageIcon(registerPath + "重置按钮.png"));
+		} else if (e.getSource() == register) {
+			register.setIcon(new ImageIcon(registerPath + "注册按钮.png"));
+		} else if (e.getSource() == login) {
+			login.setIcon(new ImageIcon(registerPath + "登录按钮.png"));
 		}
 	}
 
