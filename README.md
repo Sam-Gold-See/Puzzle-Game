@@ -183,4 +183,4 @@ PuzzleGame
 
 This project is based on itheima but does not include `src\game\ui\RegisterFrame.java`. You can use the entire project if you wish. I hope it also helps you study Java effectively.
 
-If you want to contact me, you can send an email to `chunxin.huang@m.scnu.edu.cn`.
+If you want to contact me, you can email `chunxin.huang@m.scnu.edu.cn`.
