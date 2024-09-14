@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 
 public class RegisterFrame extends JFrame implements MouseListener {
 
-	String registerPath = "src/image/register/";
+	String registerPath = "image/register/";
 
 	JTextField registerName = new JTextField();
 	JPasswordField password1 = new JPasswordField();

@@ -17,7 +17,7 @@ public class LoginFrame extends JFrame implements MouseListener {
 		users.add(new User("root", "123456"));
 	}
 
-	String loginPath = "src/image/login/";
+	String loginPath = "image/login/";
 
 	JTextField username = new JTextField();
 	JPasswordField password = new JPasswordField();

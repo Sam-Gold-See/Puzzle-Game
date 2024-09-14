@@ -14,10 +14,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 	int[][] win = new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
 	int step = 0;
 	Random random = new Random();
-	int initRandom = random.nextInt(3);
+	int initRandom = random.nextInt(3) + 1;
 	String[] pathName = new String[]{"animal", "girl", "sport"};
 	int[] pathLen = new int[]{8, 11, 10};
-	String path = "src\\image\\" + pathName[initRandom] + "\\" + pathName[initRandom] + random.nextInt(pathLen[initRandom]) + "\\";
+	String path = "image\\" + pathName[initRandom] + "\\" + pathName[initRandom] + random.nextInt(pathLen[initRandom]) + "\\";
 
 	JMenuItem jMenuReplay = new JMenuItem("replay");
 	JMenuItem jMenuReLogin = new JMenuItem("re-login");
@@ -64,7 +64,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		this.getContentPane().removeAll();
 
 		if (victory()) {
-			JLabel winLabel = new JLabel(new ImageIcon("src\\image\\win.png"));
+			JLabel winLabel = new JLabel(new ImageIcon("image\\win.png"));
 			winLabel.setBounds(203, 283, 197, 73);
 			this.getContentPane().add(winLabel);
 		}
@@ -81,7 +81,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 				this.getContentPane().add(jLabel);
 			}
 
-		JLabel background = new JLabel(new ImageIcon("src\\image\\background.png"));
+		JLabel background = new JLabel(new ImageIcon("image\\background.png"));
 		background.setBounds(40, 40, 508, 560);
 		this.getContentPane().add(background);
 
@@ -153,7 +153,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 			all.setBounds(83, 134, 420, 420);
 			this.getContentPane().add(all);
 
-			JLabel background = new JLabel(new ImageIcon("src\\image\\background.png"));
+			JLabel background = new JLabel(new ImageIcon("image\\background.png"));
 			background.setBounds(40, 40, 508, 560);
 			this.getContentPane().add(background);
 
