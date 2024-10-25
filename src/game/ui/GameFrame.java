@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameFrame extends JFrame implements KeyListener, ActionListener {
@@ -14,18 +16,35 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 	int[][] win = new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
 	int step = 0;
 	Random random = new Random();
-	int initRandom = random.nextInt(3) + 1;
+	int initRandom = random.nextInt(3);
 	String[] pathName = new String[]{"animal", "girl", "sport"};
 	int[] pathLen = new int[]{8, 11, 10};
-	String path = "image\\" + pathName[initRandom] + "\\" + pathName[initRandom] + random.nextInt(pathLen[initRandom]) + "\\";
+	String imagePath = "image\\" + pathName[initRandom] + "\\" + pathName[initRandom] + random.nextInt(pathLen[initRandom]) + "\\";
 
 	JMenuItem jMenuReplay = new JMenuItem("replay");
 	JMenuItem jMenuReLogin = new JMenuItem("re-login");
 	JMenuItem jMenuExit = new JMenuItem("exit");
 	JMenuItem jMenuAccount = new JMenuItem("account");
+
 	JMenuItem jMenuChangeAnimal = new JMenuItem("animal");
 	JMenuItem jMenuChangeGirl = new JMenuItem("girl");
 	JMenuItem jMenuChangeSport = new JMenuItem("sport");
+
+	ArrayList<JMenuItem> jMenuSaves = new ArrayList<>();
+	ArrayList<Boolean> jMenuSavesActive = new ArrayList<>();
+	ArrayList<JMenuItem> jMenuGets = new ArrayList<>();
+
+	JMenuItem jMenuSaveSite1 = new JMenuItem("save1");
+	JMenuItem jMenuSaveSite2 = new JMenuItem("save2");
+	JMenuItem jMenuSaveSite3 = new JMenuItem("save3");
+	JMenuItem jMenuSaveSite4 = new JMenuItem("save4");
+	JMenuItem jMenuSaveSite5 = new JMenuItem("save5");
+
+	JMenuItem jMenuGetSite1 = new JMenuItem();
+	JMenuItem jMenuGetSite2 = new JMenuItem();
+	JMenuItem jMenuGetSite3 = new JMenuItem();
+	JMenuItem jMenuGetSite4 = new JMenuItem();
+	JMenuItem jMenuGetSite5 = new JMenuItem();
 
 	int x = 0;
 	int y = 0;
@@ -35,11 +54,29 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 		initJMenuBar();
 
+		initSaveGet();
+
 		initData();
 
 		initImage();
 
 		this.setVisible(true);
+	}
+
+	private void initSaveGet() {
+		String localPath = "local//site";
+		for (int i = 1; i <= 5; i++) {
+			File siteFile = new File(localPath + i + "//save.txt");
+			if (!siteFile.exists()) {
+				jMenuGets.get(i - 1).setText("save" + i + "（空）");
+				jMenuSaves.get(i - 1).setText("save" + i + "（空）");
+				jMenuSavesActive.add(false);
+			} else {
+				jMenuGets.get(i - 1).setText("save" + i);
+				jMenuSaves.get(i - 1).setText("save" + i);
+				jMenuSavesActive.add(true);
+			}
+		}
 	}
 
 	private void initData() {
@@ -75,7 +112,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++) {
-				JLabel jLabel = new JLabel(new ImageIcon(path + data[i][j] + ".jpg"));
+				JLabel jLabel = new JLabel(new ImageIcon(imagePath + data[i][j] + ".jpg"));
 				jLabel.setBounds(105 * j + 83, 105 * i + 134, 105, 105);
 				jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 				this.getContentPane().add(jLabel);
@@ -104,8 +141,12 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		JMenu jMenuFunction = new JMenu("function");
 		JMenu jMenuAboutUs = new JMenu("about us");
 		JMenu jMenuChange = new JMenu("change");
+		JMenu jMenuSave = new JMenu("saves");
+		JMenu jMenuGet = new JMenu("gets");
 
 		jMenuFunction.add(jMenuChange);
+		jMenuFunction.add(jMenuSave);
+		jMenuFunction.add(jMenuGet);
 		jMenuFunction.add(jMenuReplay);
 		jMenuFunction.add(jMenuReLogin);
 		jMenuFunction.add(jMenuExit);
@@ -114,6 +155,30 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		jMenuChange.add(jMenuChangeAnimal);
 		jMenuChange.add(jMenuChangeGirl);
 		jMenuChange.add(jMenuChangeSport);
+
+		jMenuSave.add(jMenuSaveSite1);
+		jMenuSave.add(jMenuSaveSite2);
+		jMenuSave.add(jMenuSaveSite3);
+		jMenuSave.add(jMenuSaveSite4);
+		jMenuSave.add(jMenuSaveSite5);
+
+		jMenuSaves.add(jMenuSaveSite1);
+		jMenuSaves.add(jMenuSaveSite2);
+		jMenuSaves.add(jMenuSaveSite3);
+		jMenuSaves.add(jMenuSaveSite4);
+		jMenuSaves.add(jMenuSaveSite5);
+
+		jMenuGet.add(jMenuGetSite1);
+		jMenuGet.add(jMenuGetSite2);
+		jMenuGet.add(jMenuGetSite3);
+		jMenuGet.add(jMenuGetSite4);
+		jMenuGet.add(jMenuGetSite5);
+
+		jMenuGets.add(jMenuGetSite1);
+		jMenuGets.add(jMenuGetSite2);
+		jMenuGets.add(jMenuGetSite3);
+		jMenuGets.add(jMenuGetSite4);
+		jMenuGets.add(jMenuGetSite5);
 
 		jMenuBar.add(jMenuFunction);
 		jMenuBar.add(jMenuAboutUs);
@@ -125,6 +190,16 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		jMenuChangeAnimal.addActionListener(this);
 		jMenuChangeGirl.addActionListener(this);
 		jMenuChangeSport.addActionListener(this);
+		jMenuSaveSite1.addActionListener(this);
+		jMenuSaveSite2.addActionListener(this);
+		jMenuSaveSite3.addActionListener(this);
+		jMenuSaveSite4.addActionListener(this);
+		jMenuSaveSite5.addActionListener(this);
+		jMenuGetSite1.addActionListener(this);
+		jMenuGetSite2.addActionListener(this);
+		jMenuGetSite3.addActionListener(this);
+		jMenuGetSite4.addActionListener(this);
+		jMenuGetSite5.addActionListener(this);
 
 		this.setJMenuBar(jMenuBar);
 	}
@@ -149,7 +224,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_A) {
 			this.getContentPane().removeAll();
-			JLabel all = new JLabel(new ImageIcon(path + "all.jpg"));
+			JLabel all = new JLabel(new ImageIcon(imagePath + "all.jpg"));
 			all.setBounds(83, 134, 420, 420);
 			this.getContentPane().add(all);
 
@@ -222,15 +297,87 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		} else if (object == jMenuAccount) {
 			account();
 		} else if (object == jMenuChangeAnimal) {
-			path = "image\\Animal\\Animal" + (random.nextInt(8) + 1) + "\\";
+			imagePath = "image\\Animal\\Animal" + (random.nextInt(8) + 1) + "\\";
 			replay();
 		} else if (object == jMenuChangeGirl) {
-			path = "image\\Girl\\Girl" + (random.nextInt(11) + 1) + "\\";
+			imagePath = "image\\Girl\\Girl" + (random.nextInt(11) + 1) + "\\";
 			replay();
 		} else if (object == jMenuChangeSport) {
-			path = "image\\Sport\\Sport" + (random.nextInt(10) + 1) + "\\";
+			imagePath = "image\\Sport\\Sport" + (random.nextInt(10) + 1) + "\\";
 			replay();
+		} else if (object == jMenuSaveSite1) {
+			save(1);
+		} else if (object == jMenuSaveSite2) {
+			save(2);
+		} else if (object == jMenuSaveSite3) {
+			save(3);
+		} else if (object == jMenuSaveSite4) {
+			save(4);
+		} else if (object == jMenuSaveSite5) {
+			save(5);
+		} else if (object == jMenuGetSite1) {
+			get(1);
+		} else if (object == jMenuGetSite2) {
+			get(2);
+		} else if (object == jMenuGetSite3) {
+			get(3);
+		} else if (object == jMenuGetSite4) {
+			get(4);
+		} else if (object == jMenuGetSite5) {
+			get(5);
 		}
+	}
+
+	private void save(int site) {
+		if (jMenuSavesActive.get(site - 1))
+			RegisterFrame.showDialog("该位置已有存档");
+		else {
+			File saveFile = new File("local//site" + site + "//save.txt");
+			BufferedWriter bw;
+			try {
+				bw = new BufferedWriter(new FileWriter(saveFile));
+				bw.write("imagePath=" + imagePath);
+				bw.newLine();
+				bw.write("step=" + step);
+				bw.newLine();
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++) {
+						bw.write("data[" + i + "][" + j + "]=" + data[i][j]);
+						bw.newLine();
+					}
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			jMenuSavesActive.set(site - 1, true);
+			RegisterFrame.showDialog("存档成功");
+			initSaveGet();
+		}
+	}
+
+	private void get(int site) {
+		if (jMenuSavesActive.get(site - 1)) {
+			File saveFile = new File("local//site" + site + "//save.txt");
+			BufferedReader br;
+			try {
+				br = new BufferedReader(new FileReader(saveFile));
+				imagePath = br.readLine().split("=")[1];
+				step = Integer.parseInt(br.readLine().split("=")[1]);
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++)
+						data[i][j] = Integer.parseInt(br.readLine().split("=")[1]);
+				br.close();
+				saveFile.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			jMenuSavesActive.set(site - 1, false);
+			RegisterFrame.showDialog("读取成功");
+			initSaveGet();
+			initImage();
+		} else
+			RegisterFrame.showDialog("该位置没有存档");
+
 	}
 
 	private void replay() {
@@ -241,7 +388,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
 	private static void account() {
 		JDialog jDialog = new JDialog();
-		JLabel jLabel = new JLabel(new ImageIcon("src\\image\\about.jpg"));
+		JLabel jLabel = new JLabel(new ImageIcon("image\\about.jpg"));
 		jLabel.setBounds(0, 0, 640, 640);
 		jDialog.getContentPane().add(jLabel);
 		jDialog.setSize(640, 640);

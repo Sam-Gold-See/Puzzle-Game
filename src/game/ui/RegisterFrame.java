@@ -172,7 +172,7 @@ public class RegisterFrame extends JFrame implements MouseListener {
 		}
 	}
 
-	public void showDialog(String content) {
+	public static void showDialog(String content) {
 		JDialog jDialog = new JDialog();
 		jDialog.setSize(200, 150);
 		jDialog.setLocationRelativeTo(null);
