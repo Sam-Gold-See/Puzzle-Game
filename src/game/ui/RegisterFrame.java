@@ -5,6 +5,9 @@ import game.user.User;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class RegisterFrame extends JFrame implements MouseListener {
 
@@ -152,8 +155,19 @@ public class RegisterFrame extends JFrame implements MouseListener {
 			else if (!passwordInput1.equals(passwordInput2)) {
 				showDialog("两次密码不一致");
 			} else {
-				LoginFrame.users.add(new User(usernameInput,passwordInput1));
-				showDialog("注册成功，请自行返回登录界面");
+				LoginFrame.users.add(new User(usernameInput, passwordInput1));
+				BufferedWriter bw;
+				try {
+					bw = new BufferedWriter(new FileWriter(LoginFrame.userinfoFile, true));
+					bw.write("username=" + usernameInput + "&password=" + passwordInput1);
+					bw.newLine();
+					bw.close();
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+				showDialog("注册成功");
+				this.setVisible(false);
+				new LoginFrame();
 			}
 		}
 	}

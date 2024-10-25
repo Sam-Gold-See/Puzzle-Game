@@ -6,16 +6,16 @@ import game.checkcode.CheckCode;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.util.ArrayList;
 
 public class LoginFrame extends JFrame implements MouseListener {
 
-	static ArrayList<User> users = new ArrayList<>();
+	static File localDirectory = new File("local");
 
-	static {
-		users.add(new User("admin", "123456"));
-		users.add(new User("root", "123456"));
-	}
+	static File userinfoFile = new File(localDirectory, "userinfo.txt");
+
+	static ArrayList<User> users = new ArrayList<>();
 
 	String loginPath = "image/login/";
 
@@ -30,11 +30,41 @@ public class LoginFrame extends JFrame implements MouseListener {
 	JButton seePassword = new JButton();
 
 	public LoginFrame() {
+		initUserInfo();
+
 		initFrame();
 
 		initView();
 
 		this.setVisible(true);
+	}
+
+	private void initUserInfo() {
+		BufferedReader br;
+		BufferedWriter bw;
+		try {
+			localDirectory.mkdir();
+			String site = "//site";
+			for (int i = 1; i <= 5; i++) {
+				File file = new File(localDirectory + site + i);
+				file.mkdir();
+			}
+			if (userinfoFile.createNewFile()) {
+				bw = new BufferedWriter(new FileWriter(userinfoFile));
+				bw.write("username=admin&password=123456");
+				bw.newLine();
+				bw.close();
+			}
+			br = new BufferedReader(new FileReader(userinfoFile));
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split("&");
+				users.add(new User(data[0].split("=")[1], data[1].split("=")[1]));
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initView() {
@@ -80,8 +110,8 @@ public class LoginFrame extends JFrame implements MouseListener {
 		register.addMouseListener(this);
 		this.getContentPane().add(register);
 
-		seePassword.setBounds(400,195,18,29);
-		seePassword.setIcon(new ImageIcon(loginPath+"显示密码.png"));
+		seePassword.setBounds(400, 195, 18, 29);
+		seePassword.setIcon(new ImageIcon(loginPath + "显示密码.png"));
 		seePassword.setBorderPainted(false);
 		seePassword.setContentAreaFilled(false);
 		seePassword.addMouseListener(this);
@@ -114,12 +144,12 @@ public class LoginFrame extends JFrame implements MouseListener {
 				showDialog("验证码不能为空");
 			} else if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
 				showDialog("用户名或密码为空");
-			}else if(!codeInput.equalsIgnoreCase(rightCode.getText())) {
+			} else if (!codeInput.equalsIgnoreCase(rightCode.getText())) {
 				showDialog("验证码输入错误");
-			}else if(contains(userInput)) {
+			} else if (contains(userInput)) {
 				this.setVisible(false);
 				new GameFrame();
-			}else{
+			} else {
 				showDialog("用户名或密码错误");
 			}
 		} else if (e.getSource() == register) {
@@ -147,25 +177,25 @@ public class LoginFrame extends JFrame implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(e.getSource() == login) {
+		if (e.getSource() == login) {
 			login.setIcon(new ImageIcon(loginPath + "登录按下.png"));
-		}else if(e.getSource() == register) {
+		} else if (e.getSource() == register) {
 			register.setIcon(new ImageIcon(loginPath + "注册按下.png"));
-		}else if(e.getSource() == seePassword) {
+		} else if (e.getSource() == seePassword) {
 			seePassword.setIcon(new ImageIcon(loginPath + "显示密码按下.png"));
 			String passwordInput = new String(this.password.getPassword());
 			password.setText(passwordInput);
-			password.setEchoChar((char)0);
+			password.setEchoChar((char) 0);
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getSource() == login) {
+		if (e.getSource() == login) {
 			login.setIcon(new ImageIcon(loginPath + "登录按钮.png"));
-		}else if (e.getSource() == register) {
+		} else if (e.getSource() == register) {
 			register.setIcon(new ImageIcon(loginPath + "注册按钮.png"));
-		}else if (e.getSource() == seePassword) {
+		} else if (e.getSource() == seePassword) {
 			seePassword.setIcon(new ImageIcon(loginPath + "显示密码.png"));
 			password.setEchoChar('*');
 		}
