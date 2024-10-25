@@ -54,13 +54,15 @@ PuzzleGame
 
 1. 初始化登录界面
 2. 初始化登录界面功能按钮
-3. 生成、更改验证码
-4. 提供输入用户名、密码、验证码文本框
-5. 长按显示已输入密码内容
-6. 验证输入用户信息是否和已存储用户信息匹配
-7. 进入游戏界面
-8. 按钮反馈动画
-9. 跳转到注册界面
+3. 初始化本地存储文件
+4. 从本地文件读取用户信息
+5. 生成、更改验证码
+6. 提供输入用户名、密码、验证码文本框
+7. 长按显示已输入密码内容
+8. 验证输入用户信息是否和已存储用户信息匹配
+9. 进入游戏界面
+10. 按钮反馈动画
+11. 跳转到注册界面
 
 ### 注册界面：
 
@@ -69,9 +71,10 @@ PuzzleGame
 3. 提供输入用户名、密码的文本框
 4. 单击切换是否显示密码明文
 5. 验证输入信息无误后将用户信息加入用户信息库
-6. 清空文本框已输入内容
-7. 按钮反馈动画
-8. 跳转到登录界面
+6. 存储用户信息到本地文件
+7. 清空文本框已输入内容
+8. 按钮反馈动画
+9. 跳转到登录界面
 
 ### 游戏界面：
 
@@ -82,12 +85,14 @@ PuzzleGame
 5. 实现界面目录、按钮
 6. 更改游戏图片
 7. 重玩当前游戏图片
-8. 退出登录
-9. 结束程序
+8. 存档当前游玩进度
+9. 读取存档文件并恢复游戏进度（会清除存档文件）
+10. 退出登录
+11. 结束程序
 
 ## 其他说明
 
-这个项目基于 itheima，但不包括 `src\game\ui\RegisterFrame.java`。如果你愿意，可以使用整个项目。我希望它也能帮助你有效地学习 Java。
+这个项目基于 itheima，其中部分代码为依照项目逻辑自行编写。如果你愿意，可以使用整个项目。我希望它也能帮助你有效地学习 Java。
 
 如果你想联系我，可以发送电子邮件到 `chunxin.huang@m.scnu.edu.cn`。
 
@@ -148,13 +153,15 @@ PuzzleGame
 
 1. Initialize the login interface.
 2. Initialize login interface functionality buttons.
-3. Generate or change the verification code.
-4. Provide text fields for entering username, password, and verification code.
-5. Long press to display the entered password.
-6. Validate if the input user information matches the stored user information.
-7. Enter the game interface.
-8. Button feedback animation.
-9. Navigate to the registration interface.
+3. Initialize local storage file.
+4. Read user information from the local file.
+5. Generate or change the verification code.
+6. Provide text fields for entering username, password, and verification code.
+7. Long press to display the entered password.
+8. Validate if the input user information matches the stored user information.
+9. Enter the game interface.
+10. Button feedback animation.
+11. Navigate to the registration interface.
 
 ### Registration Interface:
 
@@ -163,9 +170,10 @@ PuzzleGame
 3. Provide text fields for entering username and password.
 4. Click to toggle password visibility.
 5. After verifying the input information, add the user information to the user database.
-6. Clear the text fields.
-7. Button feedback animation.
-8. Navigate to the login interface.
+6. Store user information to the local file.
+7. Clear the text fields.
+8. Button feedback animation.
+9. Navigate to the login interface.
 
 ### Game Interface:
 
@@ -176,11 +184,14 @@ PuzzleGame
 5. Implement interface directory and buttons.
 6. Change the game image.
 7. Replay the current game image.
-8. Log out.
-9. Exit the program.
+8. Save the current game progress.
+9. Read the save file and restore the game progress (the save file will be deleted).
+10. Log out.
+11. Exit the program.
+
 
 ## Proviso
 
-This project is based on itheima but does not include `src\game\ui\RegisterFrame.java`. You can use the entire project if you wish. I hope it also helps you study Java effectively.
+This project is based on itheima, some of the codes are written by myself according to the project logic. You can use the entire project if you wish. I hope it also helps you study Java effectively.
 
 If you want to contact me, you can email `chunxin.huang@m.scnu.edu.cn`.
