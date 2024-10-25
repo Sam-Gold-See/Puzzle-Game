@@ -222,13 +222,13 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 		} else if (object == jMenuAccount) {
 			account();
 		} else if (object == jMenuChangeAnimal) {
-			path = "src\\image\\Animal\\Animal" + (random.nextInt(8) + 1) + "\\";
+			path = "image\\Animal\\Animal" + (random.nextInt(8) + 1) + "\\";
 			replay();
 		} else if (object == jMenuChangeGirl) {
-			path = "src\\image\\Girl\\Girl" + (random.nextInt(11) + 1) + "\\";
+			path = "image\\Girl\\Girl" + (random.nextInt(11) + 1) + "\\";
 			replay();
 		} else if (object == jMenuChangeSport) {
-			path = "src\\image\\Sport\\Sport" + (random.nextInt(10) + 1) + "\\";
+			path = "image\\Sport\\Sport" + (random.nextInt(10) + 1) + "\\";
 			replay();
 		}
 	}
